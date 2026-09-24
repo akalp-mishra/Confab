@@ -1,26 +1,27 @@
-import {Client, Account, ID} from "appwrite";
+import {Client, Account, ID, TablesDB, Databases} from "appwrite";
 import conf from "../conf.js";
 
 export class AuthService {
     Client =new Client();
+    databases;
     account;
+    tableDB;
 
     constructor(){
         this.Client.setEndpoint(conf.endpoint).setProject(conf.projectId);
+        this.databases = new Databases(this.Client);
         this.account = new Account(this.Client);
+        this.tableDB = new TablesDB(this.Client);
     }
 
     async createAccount({email, password, name}){
         try {
-            const userAccount =await this.account.create(ID.unique(),email,password,name);
-            await this.account.createEmailPasswordSession(email,password)
+            const userAccount =await this.account.create({userId:ID.unique(),email:email,password:password,name:name});
             if(userAccount){
                 return userAccount;
-                console.log(`Account ${userAccount.$id} created successfully`);
-                return this.login(email, password);
             }
             else {
-                return userAccount;
+                console.log("Some error occured.");
             }
         }
         catch (error){
@@ -30,6 +31,25 @@ export class AuthService {
         } else {
             console.error("An unexpected error occurred:", error.message);
         }
+        }
+    }
+
+    async addAccount({$id, email ,name, pfp}){
+        try{
+            return await this.tableDB.createRow({
+                databaseId : conf.databaseId, 
+                tableId : conf.userTableId, 
+                rowId : ID.unique(),
+                data:{
+                    userId : $id, 
+                    userMail : email, 
+                    userName : name,
+                    profileImage : pfp
+                }
+            })
+        }
+        catch(error){
+            console.log(error);
         }
     }
 

@@ -13,14 +13,16 @@ import Post from './pages/Post.jsx'
 import Signup from './pages/Signup.jsx'
 import Login from './pages/Login.jsx'
 import Home from './pages/Home.jsx'
+import { TriangleAlert } from 'lucide-react'
 
 function RouteErrorBoundary(){
   const error = useRouteError();
   console.log(error);
 
   return (
-    <div className="p-20 bg-red">
-      <h3>Oops Something went wrong here !</h3>
+    <div className="bg-red-200 justify-center m-10 border p-10 rounded-xl border-black">
+      <TriangleAlert color="red"/>
+      <h3 className='justify-center items-center'>Oops Something went wrong here !</h3>
       <p>{error.statusText || error.message}</p>
     </div>
   )

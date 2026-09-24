@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import { Container, PostForm, Protected } from '../components/index'
-import blogpost from '../appwrite/config'
+import blogpost from '../appwrite/post'
 import { useNavigate, useParams } from 'react-router-dom'
 
 function EditPost() {

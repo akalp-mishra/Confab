@@ -12,6 +12,7 @@ import Postcard from './PostCard.jsx';
 import Signup from './signup.jsx';
 import Login from './Login.jsx';
 import Select from './Select.jsx';
+import SideNav from './SideNav.jsx';
 
 export { 
     Header,
@@ -27,5 +28,6 @@ export {
     Postcard,
     Signup,
     Login,
-    Select
+    Select,
+    SideNav
  };

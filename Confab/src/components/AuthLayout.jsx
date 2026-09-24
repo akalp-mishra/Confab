@@ -8,16 +8,12 @@ function Protected({children,authentication=true}) {
     const authStatus = useSelector((state)=>state.auth.isAuthenticated)
 
     useEffect(() => {
-        // Redirect if authentication requirement doesn't match user status
         if(authentication && !authStatus){
-            // User needs to be authenticated but isn't
             navigate('/login')
         }
         else if(!authentication && authStatus){
-            // User should NOT be authenticated (like login page) but is
             navigate("/")
         } else {
-            // Authentication status matches requirement
             setLoading(false)
         }
     }, [authStatus, navigate, authentication])

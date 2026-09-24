@@ -5,6 +5,7 @@ import {Button, Input} from './index.js'
 import {useDispatch} from 'react-redux'
 import authService from '../appwrite/auth.js'
 import {useForm} from 'react-hook-form'
+import blogpost from '../appwrite/post.js'
  
 function Login() {
   const navigate = useNavigate()
@@ -17,9 +18,14 @@ function Login() {
     try{
       const session = await authService.login(data)
       if(session){
-        const userData = await authService.getCurrentUser()
-        if(userData){
-          dispatch(authLogin(userData))
+        let userData = await authService.getCurrentUser()
+        const pfpId = await blogpost.setpfp(userData.$id)
+        const userdata = {
+          ...userData,
+          pfpId
+        }
+        if(userdata){
+          dispatch(authLogin(userdata))
           navigate('/')
         }
       }
@@ -45,7 +51,7 @@ function Login() {
               <Input label="Password:" placeholder="Enter your Password" type="password" {...register("password", {
                 required:true
               })}/>
-              <Button type="submit" className="w-full py-2 px-4 my-4 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+              <Button type="submit" className="w-full py-2 px-4 my-4 hover:bg-blue-700 text-white font-bold rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50" bg="blue-500">
                 Login
               </Button>
           </div>

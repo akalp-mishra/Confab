@@ -1,13 +1,13 @@
 import React, {useCallback, useEffect} from 'react'
 import {useForm} from 'react-hook-form'
 import {Button, Input, Select, RTE} from '../index'
-import blogpost from '../../appwrite/config'
+import blogpost from '../../appwrite/post'
 import fileupload from '../../appwrite/fileUpload'
 import { useNavigate, useParams } from 'react-router-dom'
 import parse from 'html-react-parser'
 import {useSelector} from 'react-redux'
  
-function PostForm({post = null}) {
+function PostForm({post=null}) {
   const {register, handleSubmit, watch, setValue, control, getValues} = useForm({
     defaultValues: {
       title: post? post.title :'',
@@ -23,11 +23,12 @@ function PostForm({post = null}) {
   const submit = async(data) => {
     if (post !== null){
       const fileIdPromise = data.featured_image[0] ? await fileupload.uploadFile(data.featured_image[0]): null
-      const fileId = await fileIdPromise
-      if(fileId){
+      let fileId = await fileIdPromise
+      if(fileId!==null){
         fileupload.deleteFile(post.featured_image)
       }
-      const dbPostPromise = await  blogpost.updatepost(post.$id,{ ...data, featured_image:(file? file.$id : "")})
+      else fileId = post.featured_image
+      const dbPostPromise = await  blogpost.updatepost(post.$id,{ ...data, featured_image:(fileId.$id!==post.featured_image? fileId.$id : post.featured_image)})
       const dbPost =  await dbPostPromise
       if(dbPost){
         navigate(`/post/${dbPost.$id}`)
@@ -74,7 +75,7 @@ function PostForm({post = null}) {
   return (
     <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
       <div className='w-2/3 px-2'>
-        <Input label="Title" className="mb-5" {...register("title", {required: true})}/>
+        <Input label="Title" className="mb-5" {...register("title", {required : true})}/>
         <div className="flex flex-col mb-5">
           <label className="mb-2">Slug</label>
           <Input 
@@ -84,13 +85,13 @@ function PostForm({post = null}) {
             className="px-3 py-2 rounded-lg bg-gray-100 text-gray-600 cursor-not-allowed"
           />
         </div>
-        <RTE label="Content:" name="content" control={control}  {...register("content",{required:true})}/>
+        <RTE label="Content:" name="content" control={control}  defaultValue={getValues("content")} {...register("content", {required : true})}/>
       </div>
       <div className="w-1/3 px-2">
         <Input label="Featured Image" type="file" className="mb-4" accept="image/jpg image/png image/gif" {...register("featured_image",{required:!post})}/>
         {post !== null && (
           <div className="w-full mb-4">
-            <img src={fileupload.getFileView(post.featured_image)} alt={post.title} heoght="150" width="150" className='rounded-lg'/>
+            <img src={fileupload.getFileView(post.featured_image)} alt={post.title} height="150" width="150" className='rounded-lg'/>
           </div>
         )}
         <Select label="Status" options={["inactive","active"]} className="mb-4" {...register("status", {required:true})}></Select>

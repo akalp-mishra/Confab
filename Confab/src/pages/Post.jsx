@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import blogpost from '../appwrite/config'
+import blogpost from '../appwrite/post'
 import fileupload from '../appwrite/fileUpload'
 import { Button, Container, Header } from '../components/index'
 import parse from "html-react-parser"
@@ -35,15 +35,13 @@ function Post() {
     }
 
   return post ?(
-    <div className='py-8'>
+    <div>
         <Header />
-        <Container >
-            <div className='w-full flex justify-center mb-4 relative border rounded-lg p-2 m-4'>
-                <img src={fileupload.getFileView(post.featured_image)} alt={post.title} className='rounded-lg'/>
+        <div className='bg-gray-200 h-full w-full p-5'>
                 {isAuthor && (
-                    <div className='absolute right-6 top-6'>
+                    <div className='absolute right-6'>
                         <Link to={`/edit-post/${post.$id}`}>
-                            <Button className="bg-blue-500 w-20 rounded-full m-4 h-10 m-10">EDIT</Button>
+                            <Button className="bg-blue-500 active:bg-blue-800 w-20 rounded-l mr-3 h-10">EDIT</Button>
                         </Link>
                         <Link to={''}>
                             <Button onClick={()=>{
@@ -53,13 +51,14 @@ function Post() {
                         </Link>
                     </div>
                 )}
-            </div>
-            <div className='w-full mb-6'>
+            <div className='relative w-full mb-4 mt-5 mr-4'>
                 <h1 className='text-2xl font-bold'>{post.title}</h1>
             </div>
-            <div className='browser-css'>{parse(post.content)}</div>
-            
-        </Container>
+            <div className='browser-css mb-10'>{parse(post.content)}</div>
+            <div className='border rounded-lg max-h-150 flex mb-10'>
+                <img src={fileupload.getFileView(post.featured_image)} alt={post.title} className='rounded-lg max-h-150 w-full'/>
+            </div>
+        </div>
     </div>
   ): null
 }

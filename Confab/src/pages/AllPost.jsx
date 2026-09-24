@@ -1,11 +1,11 @@
 import React , {useState, useEffect} from 'react'
-import blogpost from '../appwrite/config'
+import blogpost from '../appwrite/post'
 import { Postcard, Container, Protected} from '../components/index'
 
 function AllPost() {
     const [posts, setPosts] = useState([])
     useEffect(()=>{
-        blogpost.getPosts([]).then((response)=>response?setPosts(response.documents):null)
+        blogpost.listItems([]).then((response)=>response?setPosts(response.documents):null)
     },[])
 
   return (
@@ -15,7 +15,7 @@ function AllPost() {
                 <div className="flex flex-wrap">
                     {posts.map((post)=>(
                         <div className="p-3 w-1/4" key={post.$id}>
-                            <Postcard key={post.$id} post={post}/>
+                            <Postcard {...post}/>
                         </div>
                     ))}
                 </div>

@@ -15,9 +15,12 @@
     "@tinymce/tinymce-react": "^6.3.0",
     "appwrite": "^26.2.0",
     "html-react-parser": "^6.1.7",
+    "lucide-react": "^1.45.0",
+    "nodemon": "^3.1.14",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-hook-form": "^7.87.0",
+    "react-loading-skeleton": "^3.5.0",
     "react-redux": "^9.3.0",
     "react-router-dom": "^7.18.3",
     "tailwindcss": "^4.3.3"
