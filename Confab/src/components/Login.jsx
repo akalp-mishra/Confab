@@ -6,7 +6,7 @@ import {useDispatch} from 'react-redux'
 import authService from '../appwrite/auth.js'
 import {useForm} from 'react-hook-form'
 import blogpost from '../appwrite/post.js'
- 
+
 function Login() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -19,7 +19,7 @@ function Login() {
       const session = await authService.login(data)
       if(session){
         let userData = await authService.getCurrentUser()
-        const pfpId = await blogpost.setpfp(userData.$id)
+        const pfpId = await blogpost.findUser(userData.$id)
         const userdata = {
           ...userData,
           pfpId

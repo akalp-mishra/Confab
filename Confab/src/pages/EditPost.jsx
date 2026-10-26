@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import { Container, PostForm, Protected } from '../components/index'
+import { Container, PostForm, Protected, Header } from '../components/index'
 import blogpost from '../appwrite/post'
 import { useNavigate, useParams } from 'react-router-dom'
 
@@ -25,6 +25,7 @@ function EditPost() {
     return <div className="py-8">
         <Protected authentication={true}>
             <Container>
+                <Header />
                 <PostForm post={post}/>
             </Container>
         </Protected>

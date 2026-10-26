@@ -13,6 +13,8 @@ import Post from './pages/Post.jsx'
 import Signup from './pages/Signup.jsx'
 import Login from './pages/Login.jsx'
 import Home from './pages/Home.jsx'
+import FriendsPage from './pages/FriendsPage.jsx'
+import Notification from './pages/Notification.jsx'
 import { TriangleAlert } from 'lucide-react'
 
 function RouteErrorBoundary(){
@@ -69,6 +71,16 @@ const router = createBrowserRouter([
         element :<Post />,
         errorElement: <RouteErrorBoundary />
       },
+  {
+        path: '/friends/:slug',
+        element : <FriendsPage />,
+        errorElement : <RouteErrorBoundary />
+  },
+  {
+        path: '/notification',
+        element: <Notification/>,
+        errorElement: <RouteErrorBoundary />
+  }
 ])
 
 createRoot(document.getElementById('root')).render(

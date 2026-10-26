@@ -13,6 +13,7 @@ import Signup from './signup.jsx';
 import Login from './Login.jsx';
 import Select from './Select.jsx';
 import SideNav from './SideNav.jsx';
+import UserFriend from './UserFriend.jsx';
 
 export { 
     Header,
@@ -27,6 +28,7 @@ export {
     Protected,
     Postcard,
     Signup,
+    UserFriend,
     Login,
     Select,
     SideNav

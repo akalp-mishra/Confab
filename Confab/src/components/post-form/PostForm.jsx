@@ -73,7 +73,7 @@ function PostForm({post=null}) {
   }, [titleValue, slugTransform, setValue, slugValue])
 
   return (
-    <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
+    <form onSubmit={handleSubmit(submit)} className="flex flex-wrap bg-gray-100">
       <div className='w-2/3 px-2'>
         <Input label="Title" className="mb-5" {...register("title", {required : true})}/>
         <div className="flex flex-col mb-5">

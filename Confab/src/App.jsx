@@ -17,7 +17,7 @@ function App() {
     const checkSession = async () => {
       try {
         const userData = await AuthServiceObj.getCurrentUser()
-        const pfpId = await blogpost.setpfp(userData.$id)
+        const pfpId = await blogpost.findUser(userData.$id)
         const userdata = {
           ...userData,
           pfpId

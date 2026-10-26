@@ -78,7 +78,7 @@ class blogPost{
         }
     }
 
-    async setpfp(userId){
+    async findUser(userId){
         try{
             return await this.tables.listRows({
                 databaseId: conf.databaseId,

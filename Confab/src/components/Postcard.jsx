@@ -1,29 +1,55 @@
 import React, {useState,useEffect} from 'react'
+import { useSelector } from 'react-redux'
 import fileupload from '../appwrite/fileUpload'
+import Likes from '../appwrite/likes'
 import {Link} from 'react-router-dom'
 import parse from 'html-react-parser/lib/index'
-import {ThumbsUp} from 'lucide-react'
+import {ThumbsUp, UserCircle} from 'lucide-react'
 
-function Postcard({$id, title,content, featured_image, likes, $createdAt}) {
-  const postContent = parse(content).props.children
+function Postcard({$id, title,content, featured_image, likes, $createdAt, author}) {
+  const authStatus = useSelector((state)=> state.auth.isAuthenticated)
+  const userdata = useSelector((state)=> state.auth.userdata)
+
+  const [ThumbsUpIcon, setThumbsUpIcon] = useState(false)
+  const [ThumbsUpCount, setThumbsUpCount] = useState(0)
+
   let postcardContent;
-  if(postContent.length >=250) postcardContent = postContent.substring(0,250) + '... read more'
+  const postContent = parse(content).props.children
+  if(postContent.length >=75) postcardContent = postContent.substring(0,75) + '... read more'
   else postcardContent = postContent
 
-  const [ThumbsUpIcon, setThumbsUpIcon] = useState(null)
-  const [ThumbsUpCount, setThumbsUpCount] = useState(0)
   useEffect(()=>{
-    if(likes===null) setThumbsUpCount(1);
-    else setThumbsUpCount(likes);
+    setThumbsUpCount(likes)
   },[])
-  useEffect(()=>{
-    if(ThumbsUpIcon) setThumbsUpCount(prev=>prev+1)
-    else if(ThumbsUpIcon===false) setThumbsUpCount(prev=>prev-1)
-  },[ThumbsUpIcon])
+
+useEffect(()=>{
+  if(authStatus){
+    Likes.checkUserLiked($id, userdata.$id).then((value)=>{
+      setThumbsUpIcon(value);
+    })
+  }
+},[authStatus])
+
+function handleLikes(){
+  if(ThumbsUpIcon){
+    Likes.removeLike($id, userdata.$id);
+    setThumbsUpCount((prev)=> prev-1)
+  }
+  else if (ThumbsUpIcon===false){
+    Likes.addLike($id, userdata.$id)
+    setThumbsUpCount((prev)=> prev+1)
+  }
+  setThumbsUpIcon((prev)=> !prev)
+}
 
   return (
-    <div>
-      <div className="bg-white p-4 rounded-lg shadow-lg w-full h-100">
+      <article className="h-full rounded-lg bg-white p-4 shadow-lg transition-colors duration-200 hover:bg-red-100">
+          <div className="mb-4 flex min-w-0 items-center gap-3">
+            {author?.profileImage
+              ? <img src={fileupload.getFileView(author.profileImage)} alt={`${author.userName || 'User'}'s profile`} className="h-10 w-10 shrink-0 rounded-full object-cover" />
+              : <UserCircle className="h-10 w-10 shrink-0 text-gray-500" aria-label="No profile picture" />}
+            <span className="truncate font-semibold">{author?.userName || 'Unknown author'}</span>
+          </div>
           <h2 className="text-xl font-bold mb-2">{title}</h2>
           <p className="text-gray-600">Published on {new Date($createdAt).toLocaleDateString()}</p>
           <Link to={`/post/${$id}`}>
@@ -34,11 +60,10 @@ function Postcard({$id, title,content, featured_image, likes, $createdAt}) {
           </div>
           <hr />
           <div className='flex'>
-            <button onClick={()=>{(ThumbsUpIcon!==null)?setThumbsUpIcon(prev=>!prev):setThumbsUpIcon(true)}} className='m-1 mt-3 ml-5 inline-block'>{ThumbsUpIcon?<ThumbsUp color="blue"/>:<ThumbsUp/>}</button>
+            <button onClick={handleLikes} className='m-1 mt-3 ml-5 inline-block justify-items-end'>{ThumbsUpIcon?<ThumbsUp color="blue"/>:<ThumbsUp/>}</button>
             <div className='m-1.5 mt-4.5'>{ThumbsUpCount}</div>
           </div>
-        </div>
-    </div>
+      </article>
   )
 }
 
