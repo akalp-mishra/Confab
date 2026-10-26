@@ -66,7 +66,7 @@ function ProjectCard({ project, currentUser }) {
   }
 
   return (
-    <article className="h-full rounded-lg bg-white p-5 shadow-lg transition-colors duration-200 hover:bg-gray-50">
+    <article className="h-full rounded-lg bg-white p-5 shadow-lg transition-colors duration-200 hover:bg-green-100">
       <div className="mb-4 flex items-center gap-3">
         {project.author?.profileImage
           ? <img src={fileupload.getFileView(project.author.profileImage)} alt={`${project.author.userName || 'User'}'s profile`} className="h-10 w-10 rounded-full object-cover" />

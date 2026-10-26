@@ -2,19 +2,19 @@ import Header from './Header';
 import Footer from './Footer';
 import FormField from './FormField';
 import LogoutBtn from './LogoutBtn';
-import Container from './Container/Container.jsx';
-import Button from './Button.jsx';
-import Input from './Input.jsx';
-import PostForm from './post-form/Postform.jsx';
-import RTE from './RTE.jsx';
-import Protected from './AuthLayout.jsx';
-import Postcard from './PostCard.jsx';
-import Signup from './signup.jsx';
-import Login from './Login.jsx';
-import Select from './Select.jsx';
-import SideNav from './SideNav.jsx';
-import UserFriend from './UserFriend.jsx';
-import ProjectsCard from './ProjectsCard.jsx';
+import Container from './Container/Container';
+import Button from './Button';
+import Input from './Input';
+import PostForm from './post-form/Postform';
+import RTE from './RTE';
+import Protected from './AuthLayout';
+import Postcard from './PostCard';
+import Signup from './signup';
+import Login from './Login';
+import Select from './Select';
+import SideNav from './SideNav';
+import UserFriend from './UserFriend';
+import ProjectsCard from './ProjectsCard';
 
 export { 
     Header,
