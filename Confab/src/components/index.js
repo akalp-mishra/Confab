@@ -14,6 +14,7 @@ import Login from './Login.jsx';
 import Select from './Select.jsx';
 import SideNav from './SideNav.jsx';
 import UserFriend from './UserFriend.jsx';
+import ProjectsCard from './ProjectsCard.jsx';
 
 export { 
     Header,
@@ -31,5 +32,6 @@ export {
     UserFriend,
     Login,
     Select,
-    SideNav
+    SideNav,
+    ProjectsCard
  };

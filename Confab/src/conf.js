@@ -8,6 +8,7 @@ const conf = {
   likeTableId: import.meta.env.VITE_APPWRITE_LIKEDTABLE_ID,
   friendTableId: import.meta.env.VITE_APPWRITE_FRIENDSTABLE_ID,
   friendRequestTableId: import.meta.env.VITE_APPWRITE_FRIENDREQUESTTABLE_ID,
+  projectsTableId: import.meta.env.VITE_APPWRITE_PROJECTSTABLE_ID,
   bucketId: import.meta.env.VITE_APPWRITE_BUCKET_ID,
   tinymceapi: import.meta.env.VITE_TINYMCE_API_KEY
 };

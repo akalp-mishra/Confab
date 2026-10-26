@@ -24,7 +24,7 @@ function Postcard({$id, title,content, featured_image, likes, $createdAt, author
 
 useEffect(()=>{
   if(authStatus){
-    Likes.checkUserLiked($id, userdata.$id).then((value)=>{
+    Likes.checkUserLiked($id, null, userdata.$id).then((value)=>{
       setThumbsUpIcon(value);
     })
   }
@@ -60,7 +60,7 @@ function handleLikes(){
           </div>
           <hr />
           <div className='flex'>
-            <button onClick={handleLikes} className='m-1 mt-3 ml-5 inline-block justify-items-end'>{ThumbsUpIcon?<ThumbsUp color="blue"/>:<ThumbsUp/>}</button>
+            <button onClick={handleLikes} className='m-1 mt-3 ml-5 inline-block justify-items-end'>{ThumbsUpIcon?<ThumbsUp className='fill-blue-600 text-blue-600'/>:<ThumbsUp/>}</button>
             <div className='m-1.5 mt-4.5'>{ThumbsUpCount}</div>
           </div>
       </article>

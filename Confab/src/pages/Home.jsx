@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import { Query } from 'appwrite'
 import blogpost from '../appwrite/post'
 import FriendRequest from '../appwrite/friendRequest'
-import { Postcard, SideNav } from '../components/index'
+import { Postcard, ProjectsCard, SideNav } from '../components/index'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import { useSelector } from 'react-redux'
@@ -112,6 +112,7 @@ function Home() {
                                 <Skeleton height={20} width={70} />
                             </div>
                         ))}
+                        {posts && <ProjectsCard />}
                     </div>
                 </div>   
         </div>

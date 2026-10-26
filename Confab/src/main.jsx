@@ -6,15 +6,7 @@ import {Provider} from 'react-redux'
 import store from './store/store.js'
 import { createBrowserRouter, RouterProvider, useRouteError } from 'react-router-dom'
 import {Protected} from './components/index'
-import AllPost from './pages/AllPost.jsx'
-import AddPost from './pages/AddPost.jsx'
-import EditPost from './pages/EditPost.jsx'
-import Post from './pages/Post.jsx'
-import Signup from './pages/Signup.jsx'
-import Login from './pages/Login.jsx'
-import Home from './pages/Home.jsx'
-import FriendsPage from './pages/FriendsPage.jsx'
-import Notification from './pages/Notification.jsx'
+import { AddPost, AllPost, EditPost, EditProject, FriendsPage, Home, Login, Notification, Post, Signup, AddProject } from "../src/pages/index.js"
 import { TriangleAlert } from 'lucide-react'
 
 function RouteErrorBoundary(){
@@ -79,6 +71,16 @@ const router = createBrowserRouter([
   {
         path: '/notification',
         element: <Notification/>,
+        errorElement: <RouteErrorBoundary />
+  },
+  {
+        path: '/edit-project/:slug',
+        element: <EditProject />,
+        errorElement: <RouteErrorBoundary />
+  },
+  {
+        path: '/add-project',
+        element: <AddProject />,
         errorElement: <RouteErrorBoundary />
   }
 ])

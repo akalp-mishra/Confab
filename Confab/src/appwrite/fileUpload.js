@@ -13,24 +13,14 @@ export class fileUpload{
     }
 
     async uploadFile(file){
-        try{
-            const fileId = ID.unique();
-            const fileObj = {bucketId :conf.bucketId, fileId :fileId, file:file}
-            await this.storage.createFile(fileObj);
-            return fileId;
-        }
-        catch(error){
-            console.log(error);
-        }
+        const fileId = ID.unique();
+        const fileObj = {bucketId :conf.bucketId, fileId :fileId, file:file}
+        await this.storage.createFile(fileObj);
+        return fileId;
     }
 
     async deleteFile(fileId){
-        try{
-            return await this.storage.deleteFile(conf.bucketId,fileId);
-        }
-        catch(error){
-            console.log(error);
-        }
+        return await this.storage.deleteFile(conf.bucketId,fileId);
     }
 
     getFileView(fileId){

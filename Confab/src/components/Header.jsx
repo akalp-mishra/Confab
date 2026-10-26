@@ -2,7 +2,7 @@ import React from 'react'
 import {useNavigate} from 'react-router-dom'
 import {LogoutBtn} from './index.js'
 import { useSelector } from 'react-redux'
-import { House, SquarePen } from 'lucide-react'
+import { House } from 'lucide-react'
 
 const Header = () => {
   const authStatus = useSelector((state) => state.auth.isAuthenticated)
@@ -11,7 +11,6 @@ const Header = () => {
     {name: "Home", slug: "/", active : true, Icon: House},
     {name: "Login", slug: "/login", active : !authStatus},
     {name: "Signup", slug: "/signup", active : !authStatus},
-    {name: "Create", slug: "/add-posts", active : authStatus, Icon: SquarePen},
   ]
 
   return (

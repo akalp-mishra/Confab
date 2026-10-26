@@ -4,7 +4,7 @@ import fileupload from '../appwrite/fileUpload'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import { useNavigate } from 'react-router-dom'
-import { UserGroup, UserCircle, Bell, Menu, X } from 'lucide-react'
+import { UserGroup, UserCircle, Bell, Menu, X, FileText, FolderPlus } from 'lucide-react'
 
 function SideNav() {
   const navigate = useNavigate()
@@ -47,6 +47,22 @@ function SideNav() {
         <hr className='my-5 border-gray-300' />
         <button
           type="button"
+          className='mt-2 flex w-full items-center text-left hover:text-blue-600'
+          onClick={() => navigateTo('/add-posts')}
+        >
+          <FileText className='mr-4' />
+          <span>Create post</span>
+        </button>
+        <button
+          type="button"
+          className='mt-6 flex w-full items-center text-left hover:text-blue-600'
+          onClick={() => navigateTo('/add-project')}
+        >
+          <FolderPlus className='mr-4' />
+          <span>Create project</span>
+        </button>
+        <button
+          type="button"
           className='mt-6 flex w-full text-left hover:text-blue-600'
           onClick={() => navigateTo(`/friends/${userdata.$id}`)}
         >
@@ -79,7 +95,7 @@ function SideNav() {
           <span>{isOpen ? 'Close menu' : 'Menu'}</span>
         </button>
         {isOpen && (
-          <div className='fixed inset-0 z-[60] md:hidden'>
+          <div className='fixed inset-0 z-60 md:hidden'>
             <button
               type="button"
               className='absolute inset-0 h-full w-full bg-black/40'

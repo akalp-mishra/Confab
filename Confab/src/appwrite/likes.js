@@ -12,14 +12,18 @@ class likes{
         this.databases = new Databases(this.Client);
     }
 
-    async  checkUserLiked(postId, userId){
+    async checkUserLiked(postId, projectId, userId){
         try{
+            const targetQuery = postId
+                ? Query.equal('postId', postId)
+                : Query.equal('projectId', projectId)
             const result = await this.tables.listRows({
                 databaseId: conf.databaseId,
                 tableId: conf.likeTableId,
                 queries: [
-                    Query.equal('postId', postId),
-                    Query.equal('userId', userId)]
+                    targetQuery,
+                    Query.equal('userId', userId)
+                ]
             })
             if(result.total >0) return true;
             else return false;
@@ -107,6 +111,76 @@ class likes{
         catch(error){
             console.log(error);
             throw error;
+        }
+    }
+
+    async addProjectLike(projectId, userId, likes){
+        try{
+            const tx = await this.tables.createTransaction()
+
+            await this.tables.updateRow({
+                databaseId: conf.databaseId,
+                tableId: conf.projectsTableId,
+                rowId: projectId,
+                data: { likes: likes + 1 },
+                transactionId: tx.$id
+            })
+
+            await this.tables.createRow({
+                databaseId: conf.databaseId,
+                tableId: conf.likeTableId,
+                rowId: ID.unique(),
+                data: {
+                    userId,
+                    projectId: projectId
+                },
+                transactionId: tx.$id
+            })
+
+            return await this.tables.updateTransaction({
+                transactionId: tx.$id,
+                commit: true
+            })
+        } catch(error){
+            console.error('Failed to like project.', error)
+            throw error
+        }
+    }
+
+    async removeProjectLike(projectId, userId, likes){
+        try{
+            const tx = await this.tables.createTransaction()
+            const likeRows = await this.tables.listRows({
+                databaseId: conf.databaseId,
+                tableId: conf.likeTableId,
+                queries: [
+                    Query.equal('projectId', projectId),
+                    Query.equal('userId', userId)
+                ]
+            })
+
+            await Promise.all(likeRows.rows.map((row) => this.tables.deleteRow({
+                databaseId: conf.databaseId,
+                tableId: conf.likeTableId,
+                rowId: row.$id,
+                transactionId: tx.$id
+            })))
+
+            await this.tables.updateRow({
+                databaseId: conf.databaseId,
+                tableId: conf.projectsTableId,
+                rowId: projectId,
+                data: { likes: Math.max(0, likes - 1) },
+                transactionId: tx.$id
+            })
+
+            return await this.tables.updateTransaction({
+                transactionId: tx.$id,
+                commit: true
+            })
+        } catch(error){
+            console.error('Failed to remove project like.', error)
+            throw error
         }
     }
 
